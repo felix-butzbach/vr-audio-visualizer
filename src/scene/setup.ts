@@ -1,13 +1,12 @@
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
-import { createSphere } from '../utils/sphere';
-import { SPHERE_CONFIG } from '../config/constants.ts';
+import { Spheres } from '../visualizations/Spheres';
 
 export function setupScene(): {
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
   renderer: THREE.WebGLRenderer;
-  spheres: THREE.Mesh[];
+  visualization: Spheres;
 } {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(
@@ -21,18 +20,11 @@ export function setupScene(): {
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.xr.enabled = true;
-  
+
   document.body.appendChild(renderer.domElement);
   document.body.appendChild(VRButton.createButton(renderer));
 
-  const spheres: THREE.Mesh[] = [];
-  
-  // Create spheres
-  for (let i = 0; i < SPHERE_CONFIG.COUNT; i++) {
-    const sphere = createSphere(i);
-    scene.add(sphere);
-    spheres.push(sphere);
-  }
+  const visualization = new Spheres(scene);
 
   // Add lighting
   const ambientLight = new THREE.AmbientLight(0x404040);
@@ -42,7 +34,7 @@ export function setupScene(): {
   pointLight.position.set(0, 0, 5);
   scene.add(pointLight);
 
-  return { scene, camera, renderer, spheres };
+  return { scene, camera, renderer, visualization };
 }
 
 export function handleWindowResize(
