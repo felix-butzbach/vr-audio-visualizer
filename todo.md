@@ -1,3 +1,5 @@
+Prepare code for different visualizations.
+Add the controls (at least start/stop music)
 Improve visualisation (recover the inital versions)
 Try to deploy via bolt, once new tokes are available (tomorrow).
 Figure out, how to access the microphone or audio of the Quest.
