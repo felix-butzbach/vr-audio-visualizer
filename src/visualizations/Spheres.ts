@@ -1,12 +1,14 @@
 import * as THREE from 'three';
 import { SPHERE_CONFIG, AUDIO_CONFIG, FADE_CONFIG } from '../config/constants.ts';
 import { SphereUserData } from '../types/index.ts';
+import { Visualization } from './Visualization.ts';
 
-export class Spheres {
+export class Spheres extends Visualization {
     spheres: THREE.Mesh[] = [];
     copySpheres: THREE.Mesh[] = [];
 
     constructor(private scene: THREE.Scene) {
+        super();
         this.setupSpheres();
     }
 

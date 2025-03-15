@@ -1,12 +1,13 @@
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { Spheres } from '../visualizations/Spheres';
+import { Visualization } from '../visualizations/Visualization';
 
 export function setupScene(): {
   scene: THREE.Scene;
   camera: THREE.PerspectiveCamera;
   renderer: THREE.WebGLRenderer;
-  visualization: Spheres;
+  visualization: Visualization;
 } {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(
