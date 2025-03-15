@@ -5,14 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VR Audio Visualizer</title>
     <style>
-      body { margin: 0; }
-      canvas { display: block; }
-      #startButton { position: absolute; top: 10px; left: 10px; z-index: 100; }
+      body {
+        margin: 0;
+      }
+      canvas {
+        display: block;
+      }
+      #controls {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 100;
+      }
+      button {
+        margin-right: 10px;
+      }
     </style>
-    <script type="module" crossorigin src="/assets/index-db8d45f5.js"></script>
+    <script type="module" crossorigin src="/assets/index-BDPTjDnf.js"></script>
   </head>
   <body>
-    <button id="startButton">Start Visualization</button>
-    
+    <div id="controls">
+      <button id="toggleSourceButton">Use Microphone</button>
+      <button id="startButton">Start Visualization</button>
+    </div>
   </body>
 </html>
