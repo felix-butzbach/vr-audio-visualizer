@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
-import { Spheres } from '../visualizations/Spheres';
+// import { Spheres } from '../visualizations/Spheres';
 import { Visualization } from '../visualizations/Visualization';
+import { Beams } from '../visualizations/beams';
 
 export function setupScene(): {
   scene: THREE.Scene;
@@ -25,7 +26,7 @@ export function setupScene(): {
   document.body.appendChild(renderer.domElement);
   document.body.appendChild(VRButton.createButton(renderer));
 
-  const visualization = new Spheres(scene);
+  const visualization = new Beams(scene);
 
   // Add lighting
   const ambientLight = new THREE.AmbientLight(0x404040);
