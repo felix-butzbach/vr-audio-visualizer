@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { setupScene, handleWindowResize } from './scene/setup';
-import { createAudioContext, startMicrophoneVisualization, startAudioFileVisualization, stopVisualization } from './utils/audio';
+import { createAudioContext, startMicrophoneVisualization, startAudioFileVisualization, stopMusic } from './utils/audio';
 import { createCopySphere } from './utils/sphere';
 import { AUDIO_CONFIG } from './config/constants.ts';
 
@@ -8,9 +8,9 @@ const { scene, camera, renderer, spheres } = setupScene();
 const copySpheres: THREE.Mesh[] = [];
 const audioState = createAudioContext();
 
-function toggleVisualization(): void {
-  const startButton = document.getElementById('startButton');
-  if (!startButton) return;
+function toggleMusic(): void {
+  const toggleMusicButton = document.getElementById('toggleMusicButton');
+  if (!toggleMusicButton) return;
 
   if (audioState.context.state === 'suspended') {
     audioState.context.resume();
@@ -22,10 +22,10 @@ function toggleVisualization(): void {
     } else {
       startAudioFileVisualization(audioState);
     }
-    startButton.textContent = 'Stop Visualization';
+    toggleMusicButton.textContent = 'Stop Music';
   } else {
-    stopVisualization(audioState);
-    startButton.textContent = 'Start Visualization';
+    stopMusic(audioState);
+    toggleMusicButton.textContent = 'Start Music';
   }
 }
 
@@ -39,8 +39,8 @@ function toggleAudioSource(): void {
     : 'Use Microphone';
 
   if ((audioState.analyser as any).isConnected) {
-    stopVisualization(audioState);
-    toggleVisualization();
+    stopMusic(audioState);
+    toggleMusic();
   }
 }
 
@@ -58,8 +58,8 @@ function animate(): void {
       const scale = volume > AUDIO_CONFIG.THRESHOLD ? maxScale : sphere.userData.baseScale;
       sphere.scale.set(scale, scale, scale);
 
-      if (scale > maxScale * AUDIO_CONFIG.COPY_SPHERE_THRESHOLD && 
-          Math.random() < AUDIO_CONFIG.COPY_SPHERE_CHANCE) {
+      if (scale > maxScale * AUDIO_CONFIG.COPY_SPHERE_THRESHOLD &&
+        Math.random() < AUDIO_CONFIG.COPY_SPHERE_CHANCE) {
         const copySphere = createCopySphere(sphere);
         scene.add(copySphere);
         copySpheres.push(copySphere);
@@ -96,8 +96,8 @@ function animate(): void {
 // Event listeners
 window.addEventListener('resize', () => handleWindowResize(camera, renderer));
 
-const startButton = document.getElementById('startButton');
-startButton?.addEventListener('click', toggleVisualization);
+const toggleMusicButton = document.getElementById('toggleMusicButton');
+toggleMusicButton?.addEventListener('click', toggleMusic);
 
 const toggleSourceButton = document.getElementById('toggleSourceButton');
 toggleSourceButton?.addEventListener('click', toggleAudioSource);

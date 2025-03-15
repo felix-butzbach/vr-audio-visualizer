@@ -8,7 +8,7 @@ export function createAudioContext(): AudioState {
   const context = new (window.AudioContext || (window as Window & typeof globalThis & { webkitAudioContext: AudioContext }).webkitAudioContext)();
   const analyser = context.createAnalyser();
   analyser.fftSize = AUDIO_CONFIG.FFT_SIZE;
-  
+
   const source = context.createMediaElementSource(audio);
   const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
@@ -43,7 +43,7 @@ export function startAudioFileVisualization(audioState: AudioState): void {
   (audioState.analyser as any).isConnected = true;
 }
 
-export function stopVisualization(audioState: AudioState): void {
+export function stopMusic(audioState: AudioState): void {
   if (audioState.isUsingMicrophone && audioState.microphoneSource) {
     audioState.microphoneSource.disconnect();
   } else {
