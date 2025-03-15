@@ -1,7 +1,21 @@
 import * as THREE from 'three';
-import { SPHERE_CONFIG, AUDIO_CONFIG, FADE_CONFIG } from '../config/constants.ts';
 import { SphereUserData } from '../types/index.ts';
 import { Visualization } from './Visualization.ts';
+
+const SPHERE_CONFIG = {
+    BASE_SCALE: 0.05,
+    SEGMENTS: 32,
+    COUNT: 256,
+    MIN_ROTATION_SPEED: 0.1,
+    MAX_ROTATION_SPEED_ADDON: 0.02,
+    BASE_RADIUS: 1,
+    MAX_RADIUS_ADDON: 2,
+    VOLUME_THRESHOLD: 0.05,
+    COPY_SPHERE_THRESHOLD: 0.9,
+    COPY_SPHERE_CHANCE: 0.1,
+    FADE_DURATION: 2000,
+    FADE_OPACITY_MULTIPLIER: 0.6
+};
 
 export class Spheres extends Visualization {
     spheres: THREE.Mesh[] = [];
@@ -53,8 +67,8 @@ export class Spheres extends Visualization {
         copySphere.userData = {
             ...originalSphere.userData,
             fadeStartTime: Date.now(),
-            fadeDuration: FADE_CONFIG.DURATION,
-            initialOpacity: (originalSphere.material as THREE.MeshPhongMaterial).opacity * FADE_CONFIG.OPACITY_MULTIPLIER,
+            fadeDuration: SPHERE_CONFIG.FADE_DURATION,
+            initialOpacity: (originalSphere.material as THREE.MeshPhongMaterial).opacity * SPHERE_CONFIG.FADE_OPACITY_MULTIPLIER,
         } as SphereUserData;
 
         if (copySphere.material instanceof THREE.MeshPhongMaterial) {
@@ -84,11 +98,11 @@ export class Spheres extends Visualization {
                     const volume = audioState.dataArray[i] / 255;
 
                     const maxScale = sphere.userData.baseScale + volume * 8;
-                    const scale = volume > AUDIO_CONFIG.THRESHOLD ? maxScale : sphere.userData.baseScale;
+                    const scale = volume > SPHERE_CONFIG.VOLUME_THRESHOLD ? maxScale : sphere.userData.baseScale;
                     sphere.scale.set(scale, scale, scale);
 
-                    if (scale > maxScale * AUDIO_CONFIG.COPY_SPHERE_THRESHOLD &&
-                        Math.random() < AUDIO_CONFIG.COPY_SPHERE_CHANCE) {
+                    if (scale > maxScale * SPHERE_CONFIG.COPY_SPHERE_THRESHOLD &&
+                        Math.random() < SPHERE_CONFIG.COPY_SPHERE_CHANCE) {
                         const copySphere = this.createCopySphere(sphere);
                         this.scene.add(copySphere);
                         this.copySpheres.push(copySphere);

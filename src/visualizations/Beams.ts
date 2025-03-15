@@ -1,6 +1,15 @@
 import * as THREE from 'three';
-import { BEAM_CONFIG, AUDIO_CONFIG } from '../config/constants.ts';
 import { Visualization } from './Visualization.ts';
+
+const BEAM_CONFIG = {
+    BASE_RADIUS: 0.1,
+    HEIGHT: 40,
+    SEGMENTS: 32,
+    COUNT: 64,
+    SPACE_WIDTH: 20,
+    DISTANCE_FROM_CAMERA: 20,
+    VOLUME_THRESHOLD: 0.1
+};
 
 export class Beams extends Visualization {
     beams: THREE.Mesh[] = [];
@@ -52,7 +61,7 @@ export class Beams extends Visualization {
                     const volume = audioState.dataArray[i] / 255;
 
                     const maxRadius = beam.userData.baseRadius + volume * 8;
-                    const radius = volume > AUDIO_CONFIG.THRESHOLD ? maxRadius : beam.userData.baseRadius;
+                    const radius = volume > BEAM_CONFIG.VOLUME_THRESHOLD ? maxRadius : beam.userData.baseRadius;
                     beam.scale.set(radius, 1, radius);
                 }
             }
