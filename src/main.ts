@@ -4,9 +4,9 @@ import { createAudioContext, startMicrophoneVisualization, startAudioFileVisuali
 const { camera, renderer, visualization } = setupScene();
 const audioState = createAudioContext();
 
-function toggleMusic(): void {
-  const toggleMusicButton = document.getElementById('toggleMusicButton');
-  if (!toggleMusicButton) return;
+function toggleVisualization(): void {
+  const toggleVisualizationButton = document.getElementById('toggleVisualizationButton');
+  if (!toggleVisualizationButton) return;
 
   if (audioState.context.state === 'suspended') {
     audioState.context.resume();
@@ -18,10 +18,10 @@ function toggleMusic(): void {
     } else {
       startAudioFileVisualization(audioState);
     }
-    toggleMusicButton.textContent = 'Stop Music';
+    toggleVisualizationButton.textContent = 'Stop Visualization';
   } else {
     stopMusic(audioState);
-    toggleMusicButton.textContent = 'Start Music';
+    toggleVisualizationButton.textContent = 'Start Visualization';
   }
 }
 
@@ -36,15 +36,15 @@ function toggleAudioSource(): void {
 
   if ((audioState.analyser as any).isConnected) {
     stopMusic(audioState);
-    toggleMusic();
+    toggleVisualization();
   }
 }
 
 // Event listeners
 window.addEventListener('resize', () => handleWindowResize(camera, renderer));
 
-const toggleMusicButton = document.getElementById('toggleMusicButton');
-toggleMusicButton?.addEventListener('click', toggleMusic);
+const toggleVisualizationButton = document.getElementById('toggleVisualizationButton');
+toggleVisualizationButton?.addEventListener('click', toggleVisualization);
 
 const toggleSourceButton = document.getElementById('toggleSourceButton');
 toggleSourceButton?.addEventListener('click', toggleAudioSource);
