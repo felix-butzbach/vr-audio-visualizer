@@ -3,11 +3,11 @@ import { Visualization } from './Visualization.ts';
 
 const BEAM_CONFIG = {
     BASE_RADIUS: 0.1,
-    HEIGHT: 40,
+    HEIGHT: 100,
     SEGMENTS: 32,
     COUNT: 64,
-    SPACE_WIDTH: 20,
-    DISTANCE_FROM_CAMERA: 20,
+    SPACE_WIDTH: 50,
+    DISTANCE_FROM_CAMERA: 40,
     VOLUME_THRESHOLD: 0.1
 };
 
@@ -33,7 +33,7 @@ export class Beams extends Visualization {
         const xPosition = (index / BEAM_CONFIG.COUNT) * 2 - 1; // -1 to 1
         beam.position.x = xPosition * BEAM_CONFIG.SPACE_WIDTH;
         beam.position.y = 0; // Centered vertically
-        beam.position.z = -BEAM_CONFIG.DISTANCE_FROM_CAMERA;
+        beam.position.z = -BEAM_CONFIG.DISTANCE_FROM_CAMERA + Math.pow(xPosition, 2)*BEAM_CONFIG.SPACE_WIDTH; // Distribute closer to the center
 
         beam.userData = {
             baseRadius: BEAM_CONFIG.BASE_RADIUS,
